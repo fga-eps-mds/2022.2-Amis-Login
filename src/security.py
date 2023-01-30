@@ -6,10 +6,10 @@ from passlib.context import CryptContext
 from jose import jwt, JWTError
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import HTTPException, status, Depends
-from login.repository import AssistentesRepository
+from .login.repository import AssistentesRepository
 from sqlalchemy.orm import Session
-from database import engine, Base, get_db as get_database
-from model.model import Assistentes
+from .database import engine, Base, get_db as get_database
+from .model.model import Assistentes
 
 Base.metadata.create_all(bind=engine)
 
@@ -45,15 +45,16 @@ def obter_usuario_logado(database: Session = Depends(get_database), token: str =
     try:
         assistente = verificar_token(token)
     except JWTError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED ,detail='Token inválido')
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail = {"response": "Token inválido", "status_code": status.HTTP_401_UNAUTHORIZED})
 
     if not assistente:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED ,detail='Token inválido')
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail = {"response": "Token inválido", "status_code": status.HTTP_401_UNAUTHORIZED})
+
     
     assistenteReturn = AssistentesRepository.find_by_login(database, assistente)
 
     if not assistenteReturn:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED ,detail='Token inválido')
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail = {"response": "Token inválido", "status_code": status.HTTP_401_UNAUTHORIZED})
 
     assistenteReturn.senha = None
 
