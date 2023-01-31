@@ -9,6 +9,5 @@ httpx
 pytest-asyncio
 coverage
 python-jose
-typing==3.7.4.3
 passlib
 python-multipart
