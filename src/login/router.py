@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, Form, HTTPException
-from ..database import engine, Base, get_db as get_database
-from ..model.model import Assistentes as Assistente
-from ..security import criar_token_jwt, verify_password, obter_usuario_logado
-from .repository import AssistentesRepository
+from database import engine, Base, get_db as get_database
+from model.model import Assistentes as Assistente
+from security import criar_token_jwt, verify_password, obter_usuario_logado
+from assistente.repository import AssistentesRepository
 
 Base.metadata.create_all(bind=engine)
 
