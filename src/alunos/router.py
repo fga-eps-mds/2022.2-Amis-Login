@@ -20,7 +20,7 @@ def create_aluno(request: AlunoRequest, db: Session = Depends(get_db)):
     aluno = AlunoRepository.save_aluno(db, Aluno(**request.dict()))
     return AlunoResponse.from_orm(aluno)
 
-@router_alunos.get("/", response_model=list[AlunoResponse])
+@router_alunos.get("/", response_model=list[AlunoResponse]) 
 def find_all_aluno(db: Session = Depends(get_db)):
     alunos = AlunoRepository.find_all_aluno(db)
     return[AlunoResponse.from_orm(alunos) for alunos in alunos]
@@ -43,6 +43,26 @@ def find_by_cpf_aluno(cpf : str, db : Session =  Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND,  detail = "Aluno não encontrado"
         )
     return AlunoResponse.from_orm(aluno)
+
+@router_alunos.delete("/cpf/{cpf}", status_code= status.HTTP_204_NO_CONTENT)
+def delete_aluno_by_cpf(cpf : str, db : Session =  Depends(get_db)):
+    if not AlunoRepository.find_by_cpf_aluno(db, cpf):
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND, detail="Aluno não encontrado"
+        )
+    AlunoRepository.delete_by_cpf_aluno(db, cpf)
+    return Response(status_code = status.HTTP_204_NO_CONTENT)
+
+
+@router_alunos.put("/cpf/{cpf}", response_model= AlunoResponse)
+def update_aluno_by_cpf(request: AlunoRequest, cpf: str, db : Session = Depends(get_db)):
+    if not AlunoRepository.exists_by_cpf_aluno(db, cpf):
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND, detail="Aluno não encontrado"
+        )
+    AlunoRepository.update_by_cpf(db, Aluno(**request.dict()))
+    return Response(status_code= status.HTTP_404_NOT_FOUND)
+
 
 ### Telefone ###
 

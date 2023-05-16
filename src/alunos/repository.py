@@ -27,6 +27,10 @@ class AlunoRepository:
     @staticmethod
     def exists_by_id_aluno(db: Session, id: int) -> bool:
         return db.query(Aluno).filter(Aluno.id_aluno == id).first() is not None
+    
+    @staticmethod
+    def exists_by_cpf_aluno(db: Session, cpf: str) -> bool:
+        return db.query(Aluno).filter(Aluno.cpf == cpf).first() is not None
 
     @staticmethod
     def delete_by_id_aluno(db: Session, id: int) -> None:
@@ -35,6 +39,21 @@ class AlunoRepository:
             db.delete(aluno)
             db.commit()
 
+    @staticmethod
+    def delete_by_cpf_aluno(db: Session, cpf: str) -> None:
+        aluno = db.query(Aluno).filter(Aluno.cpf == cpf).first()
+        if aluno is not None:
+            db.delete(aluno)
+            db.commit()
+
+    @staticmethod
+    def update_by_cpf(db: Session, aluno: Aluno) -> Aluno:
+        if aluno.cpf:
+            db.merge(aluno)
+        else:
+            db.add(aluno)
+        db.commit()
+        return aluno
 
 class TelefoneRepository:
     @staticmethod
