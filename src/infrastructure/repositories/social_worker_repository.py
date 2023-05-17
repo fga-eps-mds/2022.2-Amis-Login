@@ -1,13 +1,13 @@
 from ...domain.repositories.social_worker_repository  import SocialWorkerRepositoryBaseModel
-from ...domain.models.social_worker import Assistentes
+from ...domain.models.social_worker import SocialWorker
 
 class SocialWorkerRepository(SocialWorkerRepositoryBaseModel):
-    __assistentes__: list[Assistentes] = []
-    @staticmethod
-    def find_by_login(self,login: str) -> Assistentes | None:
-        '''Função para fazer uma query por login de um objeto Assistentes na DB'''
-        # return database.query(Assistentes).filter(Assistentes.login == login).first()
-        for assistente in self.__assistentes__:
-            if assistente.login == login:
-                return assistente
+    __SocialWorkers__: list[SocialWorker] = []
+
+    def find_by_login(self,login: str) -> SocialWorker | None:
+        '''Função para fazer uma query por login de um objeto SocialWorker na DB'''
+        # return database.query(SocialWorker).filter(SocialWorker.login == login).first()
+        for socialWorker in self.__SocialWorkers__:
+            if socialWorker.login == login:
+                return socialWorker
         return None

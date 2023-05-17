@@ -1,11 +1,8 @@
-from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, Form, HTTPException
-from ...database import engine, Base, get_db as get_database
-from ...domain.models.social_worker import Assistentes as Assistente
-from ...security import criar_token_jwt, verify_password, obter_usuario_logado
-from ...infrastructure.repositories.social_worker_repository import AssistentesRepository
+from ...infrastructure.repositories.social_worker_repository import SocialWorkerRepository
+from src.application import social_worker_service
 
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 
 router = APIRouter(
   prefix = '/login',
@@ -13,19 +10,16 @@ router = APIRouter(
   responses = {404: {"description": "Not found"}},
 )
 
+socialWorkerRepository = SocialWorkerRepository()
+
 @router.post("/")
 async def login(username: str = Form(...), password: str = Form(...)):
-    assistente = AssistentesRepository.find_by_login(database, login=username)
-    if not assistente or not verify_password(password, assistente.senha):
-        raise HTTPException(
-          status_code=403,
-          detail="Email ou nome de usuário incorretos"
-        )
+    token = social_worker_service.login(socialWorkerRepository, username= username, password= password)
     return {
-      "access_token": criar_token_jwt(assistente.login),
+      "access_token": token,
       "token_type": "bearer",
     }
 
 @router.get("/token")
-async def verificarToken(usuario: Assistente = Depends(obter_usuario_logado)):
-  return usuario
+async def verificarToken(token:str):
+  return social_worker_service.verifyToken(token)
