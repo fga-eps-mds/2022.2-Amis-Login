@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, Form, HTTPException
-from ..database import engine, Base, get_db as get_database
-from ..model.model import Assistentes as Assistente
-from ..security import criar_token_jwt, verify_password, obter_usuario_logado
-from .repository import AssistentesRepository
+from ...database import engine, Base, get_db as get_database
+from ...domain.models.social_worker import Assistentes as Assistente
+from ...security import criar_token_jwt, verify_password, obter_usuario_logado
+from ...infrastructure.repositories.social_worker_repository import AssistentesRepository
 
 Base.metadata.create_all(bind=engine)
 
@@ -14,7 +14,7 @@ router = APIRouter(
 )
 
 @router.post("/")
-async def login(username: str = Form(...), password: str = Form(...), database: Session = Depends(get_database)):
+async def login(username: str = Form(...), password: str = Form(...)):
     assistente = AssistentesRepository.find_by_login(database, login=username)
     if not assistente or not verify_password(password, assistente.senha):
         raise HTTPException(

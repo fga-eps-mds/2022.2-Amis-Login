@@ -16,7 +16,7 @@ app.add_middleware(
 )
 
 # Routers
-from .login.router import router as login_router
+from .interfaces.controllers.user_controller import router as login_router
 from .config import settings
 
 app.include_router(login_router)

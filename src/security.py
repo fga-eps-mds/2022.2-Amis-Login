@@ -6,10 +6,10 @@ from passlib.context import CryptContext
 from jose import jwt, JWTError
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import HTTPException, status, Depends
-from .login.repository import AssistentesRepository
+from .infrastructure.repositories.social_worker_repository import AssistentesRepository
 from sqlalchemy.orm import Session
 from .database import engine, Base, get_db as get_database
-from .model.model import Assistentes
+from .domain.models.social_worker import Assistentes
 
 Base.metadata.create_all(bind=engine)
 
