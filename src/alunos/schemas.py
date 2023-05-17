@@ -19,7 +19,7 @@ class AlunoRequest(AlunoBase):
     ...
 
 class AlunoResponse(AlunoBase):
-    id_aluno : int
+    cpf : int
 
     class Config:
         orm_mode = True
@@ -30,12 +30,14 @@ class TelefoneBase(BaseModel):
     ddd : int
     numero : str
     tipo_numero : str
+    cpf_aluno: str
 
 class TelefoneRequest(TelefoneBase):
     ...
 
 class TelefoneResponse(TelefoneBase):
     id_telefone : int
+    cpf_aluno: str
     
     class Config:
         orm_mode = True
