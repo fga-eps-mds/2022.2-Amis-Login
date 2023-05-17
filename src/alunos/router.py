@@ -76,7 +76,15 @@ def find_by_id_telefone(id : int, db : Session =  Depends(get_db)):
          raise HTTPException(
              status_code=status.HTTP_404_NOT_FOUND,  detail = "Telefone não encontrado"
          )
-     return AlunoResponse.from_orm(telefone)
+     return TelefoneResponse.from_orm(telefone)
 
+@router_telefone.delete("/{id}", status_code= status.HTTP_204_NO_CONTENT)
+def delete_telefone_by_id(id : int, db : Session =  Depends(get_db)):
+    if not TelefoneRepository.find_by_id_telefone(db, id):
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND, detail="Telefone não encontrado"
+        )
+    TelefoneRepository.delete_by_id_telefone(db, id)
+    return Response(status_code = status.HTTP_204_NO_CONTENT)
 
 

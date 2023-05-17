@@ -65,7 +65,7 @@ class TelefoneRepository:
 
     @staticmethod
     def save_telefone(db: Session, telefone: Telefone) -> Telefone:
-        if telefone.id:
+        if telefone.id_telefone:
             db.merge(telefone)
         else:
             db.add(telefone)
@@ -78,11 +78,11 @@ class TelefoneRepository:
 
     @staticmethod
     def exists_by_id_telefone(db: Session, id: int) -> bool:
-        return db.query(Telefone).filter(Telefone.id == id).first() is not None
+        return db.query(Telefone).filter(Telefone.id_telefone == id).first() is not None
 
     @staticmethod
     def delete_by_id_telefone(db: Session, id: int) -> None:
-        telefone = db.query(Telefone).filter(Telefone.id == id).first()
+        telefone = db.query(Telefone).filter(Telefone.id_telefone == id).first()
         if telefone is not None:
             db.delete(telefone)
             db.commit()
