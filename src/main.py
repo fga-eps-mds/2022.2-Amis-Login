@@ -15,14 +15,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Routers
-from .login.router import router as login_router
-from .alunos.router import router_alunos as alunos_router, router_telefone as telefone_router
+# # Routers
+# from .login.router import router as login_router
+from .alunos.router import router_alunos as alunos_router
 from .config import settings
 
-app.include_router(login_router)
+# app.include_router(login_router)
 app.include_router(alunos_router)
-app.include_router(telefone_router)
 
 @app.get('/')
 async def hello_world():
