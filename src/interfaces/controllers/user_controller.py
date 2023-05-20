@@ -2,6 +2,8 @@ from fastapi import APIRouter, Form, Header, HTTPException
 from ...infrastructure.repositories.social_worker_repository import SocialWorkerRepository
 from ...infrastructure.repositories.tokens_repository import TokensRepository
 from src.application.social_worker_service import SocialWorkerService
+from src.infrastructure.repositories.tokens_repository import TokensRepository
+
 
 router = APIRouter(
   prefix = '/login',
@@ -23,13 +25,13 @@ async def login(username: str = Form(...), password: str = Form(...)):
     "token_type": "bearer",
   }
 
-@router.get("/token")
+@router.get("/token", status_code=201)
 async def verificarToken(authorization: str = Header(...)):
   socialWorker = socialWorkersService.verifyToken(authorization)
   socialWorker.senha = None
   return socialWorker
 
-@router.post("/token/refresh")
+@router.post("/token/refresh", status_code=201)
 async def refreshToken(refresh_token: str = Header(...)):
   tokens = socialWorkersService.refreshSession(refresh_token=refresh_token)
   if tokens:
@@ -40,3 +42,9 @@ async def refreshToken(refresh_token: str = Header(...)):
     }
 
   raise HTTPException(401, "Not Allowed")
+
+@router.post("/logout")
+def logout(refresh_token: str = Header(...)):
+    socialWorkersService.delete_refresh_token(refresh_token)
+    
+    return {"message": "Logout realizado com sucesso"}

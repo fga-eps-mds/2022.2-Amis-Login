@@ -44,3 +44,8 @@ class SocialWorkerService():
       return self.__tokensRepository__.refreshToken(refresh_token=refresh_token)
 
     return None
+  
+  def delete_refresh_token(self, refresh_token: str):
+        self.__tokensRepository__.delete_refresh_token(refresh_token)
+        
+        return None
