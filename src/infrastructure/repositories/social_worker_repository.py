@@ -1,25 +1,27 @@
-from domain.models.social_worker import SocialWorker  #certo
-from domain.schemas.socialWorker import SocialWorker
+from domain.models.social_worker import SocialWorkerDB  # certo
 from os import getenv
 from src.security import get_password_hash
-from domain.repositories.social_worker_repository import SocialWorkerRepositoryBaseModel
+from domain.repositories.social_worker_repository import SocialWorkerRepository
+
 
 class SocialWorkerRepository():
-    __SocialWorkers__: list[SocialWorker] = []
+    __SocialWorkers__: list[SocialWorkerDB] = []
 
     def __init__(self):
         if getenv("ENV") == 'DEV':
-            self.__SocialWorkers__.append(SocialWorker(
-                id=1,
+            self.__SocialWorkers__.append(SocialWorkerDB(
                 nome="test",
                 login="test",
                 senha=get_password_hash("test"),
                 cpf="test",
                 observacao="test",
-                administrador= True
+                email="test",
+                dNascimento="test",
+                telefone="test",
+                administrador=True
             ))
 
-    def find_by_login(self, login: str) -> SocialWorker | None:
+    def find_by_login(self, login: str) -> SocialWorkerDB | None:
         '''Função para fazer uma query por login de um objeto SocialWorker na DB'''
         # return database.query(SocialWorker).filter(SocialWorker.login == login).first()
         for socialWorker in self.__SocialWorkers__:
@@ -27,5 +29,5 @@ class SocialWorkerRepository():
                 return socialWorker
         return None
 
-print(">>>>> ", SocialWorkerRepository)
-assert isinstance(SocialWorkerRepository(), SocialWorkerRepositoryBaseModel)
+
+assert isinstance(SocialWorkerRepository(), SocialWorkerRepository)

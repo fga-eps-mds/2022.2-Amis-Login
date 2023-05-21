@@ -1,17 +1,16 @@
-from ..domain.repositories.social_worker_repository import SocialWorkerRepositoryBaseModel
+from ..domain.repositories.social_worker_repository import SocialWorkerRepository
 from ..domain.repositories.tokens_repository import TokensRepositoryBaseModel
 from src.security import verify_password
 from src.domain.models.social_worker import SocialWorker
-#from src.domain.schemas.socialWorker import SocialWorker
 from fastapi import HTTPException
 
 class SocialWorkerService():
-  __socialWorkersRepository__: SocialWorkerRepositoryBaseModel
+  __socialWorkersRepository__: SocialWorkerRepository
   __tokensRepository__: TokensRepositoryBaseModel
 
   def __init__(
       self,
-      socialWorkersRepository: SocialWorkerRepositoryBaseModel,
+      socialWorkersRepository: SocialWorkerRepository,
       tokensRepository: TokensRepositoryBaseModel
   ):
     self.__socialWorkersRepository__ = socialWorkersRepository
