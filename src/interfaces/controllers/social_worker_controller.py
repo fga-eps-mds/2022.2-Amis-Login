@@ -1,6 +1,6 @@
 from database import get_db
 from sqlalchemy.orm import Session
-from domain.models.schema import SocialWorkerResponse, SocialWorkerRequest
+from domain.models.social_worker import SocialWorkerResponse, SocialWorkerRequest
 from domain.models.social_worker import SocialWorker, SocialWorkerDB
 from domain.repositories.social_worker_repository import SocialWorkerRepository
 # from domain.models.social_worker import SocialWorker

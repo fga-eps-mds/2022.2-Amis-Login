@@ -1,7 +1,6 @@
-'''Importando parâmetros da orm'''
+from database import Base
 from pydantic import BaseModel
 from sqlalchemy import Column, Integer, String, Boolean
-from database import Base
 
 
 class SocialWorkerDB(Base):
@@ -31,3 +30,14 @@ class SocialWorker(BaseModel):
     email: str
     telefone: str
     administrador: bool
+
+
+class SocialWorkerRequest(SocialWorker):
+    '''...'''
+    pass
+
+
+class SocialWorkerResponse(SocialWorker):
+    '''...'''
+    class Config:
+        orm_mode = True
