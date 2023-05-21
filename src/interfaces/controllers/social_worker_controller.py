@@ -23,9 +23,9 @@ def create(SocialWorker: SocialWorkerRequest, database: Session = Depends(get_db
     assistentesModel = SocialWorkerDB(**SocialWorker.__dict__)
     assistentesModel.senha = get_password_hash(assistentesModel.senha)
 
-    if SocialWorkerRepository.exists_by_cpf(database, assistentesModel.cpf):
-        print("Já existe um CPF cadastrado")
-        raise HTTPException(status_code=400, detail="CPF já cadastrado")
+    if SocialWorkerRepository.exists_by_login(database, assistentesModel.login):
+        print("Já existe um login cadastrado")
+        raise HTTPException(status_code=400, detail="login já cadastrado")
 
     assistentes = SocialWorkerRepository.save(
         database=database, SocialWorkerSent=assistentesModel)
@@ -40,27 +40,27 @@ def find_all(database: Session = Depends(get_db)):
     assistentes = SocialWorkerRepository.find_all(database)
     return [SocialWorkerResponse.from_orm(assistente) for assistente in assistentes]
 
-# READ BY CPF
+# READ BY login
 
 
-@router.get("/{cpf}", response_model=SocialWorker)
-def find_by_cpf(cpf: str, database: Session = Depends(get_db)):
-    '''Dado o CPF como parâmetro, encontra a assistente com esse CPF'''
-    assistente = SocialWorkerRepository.find_by_cpf(database, cpf)
+@router.get("/{login}", response_model=SocialWorker)
+def find_by_login(login: str, database: Session = Depends(get_db)):
+    '''Dado o login como parâmetro, encontra a assistente com esse login'''
+    assistente = SocialWorkerRepository.find_by_login(database, login)
     if not assistente:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Assistente não encontrada"
         )
     return SocialWorkerResponse.from_orm(assistente)
 
-# UPDATE BY CPF
+# UPDATE BY login
 
 
-@router.put("/{cpf}", response_model=SocialWorker)
+@router.put("/{login}", response_model=SocialWorker)
 def update(request: SocialWorkerRequest, database: Session = Depends(get_db)):
-    '''Dado o CPF da assistente, atualiza os dados cadastrais na DB por meio do método PUT'''
-    cpf = request.cpf
-    if not SocialWorkerRepository.exists_by_cpf(database, cpf):
+    '''Dado o login da assistente, atualiza os dados cadastrais na DB por meio do método PUT'''
+    login = request.login
+    if not SocialWorkerRepository.exists_by_login(database, login):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Assistente não encontrada"
         )
@@ -68,15 +68,15 @@ def update(request: SocialWorkerRequest, database: Session = Depends(get_db)):
         database, SocialWorkerDB(**request.dict()))
     return SocialWorkerResponse.from_orm(assistente)
 
-# DELETE BY CPF
+# DELETE BY login
 
 
-@router.delete("/{cpf}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_by_cpf(cpf: str, database: Session = Depends(get_db)):
+@router.delete("/{login}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_by_login(login: str, database: Session = Depends(get_db)):
     '''Dado o ID da assistente, deleta o objeto da DB por meio do método DELETE'''
-    if not SocialWorkerRepository.exists_by_cpf(database, cpf):
+    if not SocialWorkerRepository.exists_by_login(database, login):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Assistente não encontrada"
         )
-    SocialWorkerRepository.delete_by_cpf(database, cpf)
+    SocialWorkerRepository.delete_by_login(database, login)
     return Response(status_code=status.HTTP_204_NO_CONTENT)

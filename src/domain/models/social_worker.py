@@ -10,9 +10,9 @@ class SocialWorkerDB(Base):
     __table_args__ = {"extend_existing": True}
 
     nome: str = Column(String(100), nullable=False)
-    login: str = Column(String(100), nullable=False)
+    login: str = Column(String(100),primary_key=True, nullable=False)
     senha: str = Column(String(100), nullable=False)
-    cpf: str = Column(String(11), primary_key=True, nullable=False)
+    cpf: str = Column(String(11), nullable=False)
     dNascimento: str = Column(String(10), nullable=False)
     observacao: str = Column(String(200), nullable=True)
     telefone: str = Column(String(11), nullable=False)
