@@ -1,7 +1,10 @@
+from .config import settings
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
 from dotenv import load_dotenv
 load_dotenv()
 
-from fastapi import FastAPI, status
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
@@ -15,13 +18,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# # Routers
-# from .login.router import router as login_router
-from .alunos.router import router_alunos as alunos_router
+# Routers
+from .interfaces.controllers.user_controller import router as login_router
+from .interfaces.controllers.student_controller import router_student 
 from .config import settings
 
-# app.include_router(login_router)
-app.include_router(alunos_router)
+app.include_router(login_router)
+app.include_router(router_student)
+
+
 
 @app.get('/')
 async def hello_world():

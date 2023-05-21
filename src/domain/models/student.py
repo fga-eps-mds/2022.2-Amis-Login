@@ -1,24 +1,47 @@
+from lib2to3.pytree import Base
+from pydantic import BaseModel
+from enum import Enum
+from ...database import Base
+
 '''Importando parâmetros da orm'''
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Index
 from sqlalchemy import Column, Enum as EnumDB
-from src.alunos.schemas import Status
-from ..database import Base
-from sqlalchemy.orm import relationship
 
-class Assistentes(Base):
-    '''Classe para estabelecer o modelo da tabela na DB'''
-    __tablename__ = "assistentes"
 
-    id: int = Column(Integer, primary_key = True, index = True)
-    nome: str = Column(String(100), nullable = False)
-    login: str = Column(String(100), nullable = False)
-    senha: str = Column(String(100), nullable = False)
-    cpf: str = Column(String(11), nullable = False)
-    observacao: str = Column(String(200), nullable = True)
-    administrador: bool = Column(Boolean, nullable = False)
+##### Aluno ####
+class Status(Enum):
+    PRODUCAO = 1
+    CURSO = 2
+    INATIVO = 3
 
-class Aluno(Base):
-    __tablename__ = "alunos"
+class StudentBase(BaseModel):
+    bairro : str
+    cep : str
+    cidade : str
+    cpf : str
+    data_nascimento : str 
+    deficiencia : bool 
+    descricao_endereco : str 
+    email : str 
+    login : str
+    nome : str 
+    senha : str
+    status : Status
+    telefone : str
+    
+
+class StudentRequest(StudentBase):
+    ...
+
+class StudentResponse(StudentBase):
+    login : str
+
+    class Config:
+        orm_mode = True
+    
+
+class Student(Base):
+    __tablename__ = "students"
 
     bairro : str = Column(String(100), nullable = False)
     cep : str = Column(String(8), nullable = False)
