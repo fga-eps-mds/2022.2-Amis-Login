@@ -1,7 +1,8 @@
-from ...domain.models.social_worker import SocialWorker
+from domain.models.social_worker import SocialWorker  #certo
+from domain.schemas.socialWorker import SocialWorker
 from os import getenv
 from src.security import get_password_hash
-from ...domain.repositories.social_worker_repository import SocialWorkerRepositoryBaseModel
+from domain.repositories.social_worker_repository import SocialWorkerRepositoryBaseModel
 
 class SocialWorkerRepository():
     __SocialWorkers__: list[SocialWorker] = []
@@ -26,4 +27,5 @@ class SocialWorkerRepository():
                 return socialWorker
         return None
 
+print(">>>>> ", SocialWorkerRepository)
 assert isinstance(SocialWorkerRepository(), SocialWorkerRepositoryBaseModel)

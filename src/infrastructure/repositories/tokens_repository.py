@@ -50,4 +50,5 @@ class TokensRepository():
     
     return decodedJwt
 
+print(">>>>> ", TokensRepositoryBaseModel)
 assert isinstance(TokensRepository(), TokensRepositoryBaseModel)

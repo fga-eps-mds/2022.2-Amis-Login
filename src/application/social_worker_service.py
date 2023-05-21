@@ -2,6 +2,7 @@ from ..domain.repositories.social_worker_repository import SocialWorkerRepositor
 from ..domain.repositories.tokens_repository import TokensRepositoryBaseModel
 from src.security import verify_password
 from src.domain.models.social_worker import SocialWorker
+#from src.domain.schemas.socialWorker import SocialWorker
 from fastapi import HTTPException
 
 class SocialWorkerService():
