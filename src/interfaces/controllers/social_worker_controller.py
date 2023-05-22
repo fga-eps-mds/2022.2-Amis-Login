@@ -22,7 +22,12 @@ router = APIRouter(
              response_model=SocialWorkerResponse,
              status_code=status.HTTP_201_CREATED,)
 def create(SocialWorker: SocialWorkerRequest, database: Session = Depends(get_db)):
-    # TODO: Adicionar validação dos dados.
+    fieldsValidation = SocialWorkerRepository.validateSocialWorker(
+        SocialWorker)
+    if not fieldsValidation['completeStatus']:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=fieldsValidation)
+
     assistentesModel = SocialWorkerDB(**SocialWorker.__dict__)
     assistentesModel.senha = get_password_hash(assistentesModel.senha)
 
@@ -62,6 +67,11 @@ def find_by_login(login: str, database: Session = Depends(get_db)):
 @router.put("/{login}", response_model=SocialWorker)
 def update(request: SocialWorkerRequest, database: Session = Depends(get_db)):
     '''Dado o login da assistente, atualiza os dados cadastrais na DB por meio do método PUT'''
+    fieldsValidation = SocialWorkerRepository.validateSocialWorker(request)
+    if not fieldsValidation['completeStatus']:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=fieldsValidation)
+
     login = request.login
     if not SocialWorkerRepository.exists_by_login(database, login):
         raise HTTPException(

@@ -1,14 +1,15 @@
-from domain.models.social_worker import SocialWorkerDB
-from typing import Protocol, runtime_checkable
+from domain.models.social_worker import SocialWorkerDB, SocialWorker
 from sqlalchemy.orm import Session
 
+from infrastructure.repositories.field_repository import FieldValidation
 
-#@runtime_checkable
-#class SocialWorkerRepositoryBaseModel(Protocol):
 
-    #def find_by_login(self, login: str) -> SocialWorkerDB | None:
-    #    '''Função para fazer uma query por login de um objeto SocialWorker na DB'''
-    #    ...
+# @runtime_checkable
+# class SocialWorkerRepositoryBaseModel(Protocol):
+
+# def find_by_login(self, login: str) -> SocialWorkerDB | None:
+#    '''Função para fazer uma query por login de um objeto SocialWorker na DB'''
+#    ...
 
 
 class SocialWorkerRepository:
@@ -37,7 +38,8 @@ class SocialWorkerRepository:
     @staticmethod
     def exists_by_login(database: Session, login: str) -> bool:
         '''Função que verifica se o login dado existe na DB'''
-        return database.query(SocialWorkerDB).filter(SocialWorkerDB.login == login).first() is not None
+        return database.query(SocialWorkerDB).filter(SocialWorkerDB.login == login).first() is \
+            not None
 
     @staticmethod
     def delete_by_login(database: Session, login: str) -> None:
@@ -48,3 +50,35 @@ class SocialWorkerRepository:
         if SocialWorkerObj is not None:
             database.delete(SocialWorkerObj)
             database.commit()
+
+    @staticmethod
+    def validateSocialWorker(socialWorker: SocialWorker) -> dict:
+        '''Função para validar os campos de um objeto SocialWorker'''
+
+        fieldInfoDict = {}
+        fieldInfoDict["nome"] = vars(FieldValidation.nomeValidation(
+            socialWorker.nome))
+        fieldInfoDict["login"] = vars(FieldValidation.loginValidation(
+            socialWorker.login))
+        fieldInfoDict["senha"] = vars(FieldValidation.senhaValidation(
+            socialWorker.senha))
+        fieldInfoDict["cpf"] = vars(FieldValidation.cpfValidation(socialWorker.cpf))
+        fieldInfoDict["dNascimento"] = vars(FieldValidation.dNascimentoValidation(
+            socialWorker.dNascimento))
+        fieldInfoDict["observacao"] = vars(FieldValidation.observacaoValidation(
+            socialWorker.observacao))
+        fieldInfoDict["telefone"] = vars(FieldValidation.telefoneValidation(
+            socialWorker.telefone))
+        fieldInfoDict["email"] = vars(FieldValidation.emailValidation(
+            socialWorker.email))
+        # fieldInfoDict["administrador"] = FieldValidation.administradorValidation(
+        # socialWorker.administrador)
+
+        completeStatus = True
+        for key in fieldInfoDict:
+            if fieldInfoDict[key]['status'] == False:
+                completeStatus = False
+                break
+        fieldInfoDict['completeStatus'] = completeStatus
+
+        return fieldInfoDict

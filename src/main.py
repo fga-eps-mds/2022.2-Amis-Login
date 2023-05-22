@@ -24,8 +24,6 @@ from .config import settings
 app.include_router(login_router)
 app.include_router(assistente_router)
 @app.get('/')
-async def hello_world():
-    return {
-        "db_type": settings.db_type,
-        "db_url": settings.db_url,
+async def root():
+    return { "message" : "Amis !"
     }
