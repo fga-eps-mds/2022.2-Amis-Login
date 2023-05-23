@@ -20,10 +20,20 @@ router_student = APIRouter(
 ### student ###
 @router_student.post("/", response_model = StudentResponse, status_code=status.HTTP_201_CREATED)
 def create_student(request: StudentRequest, db: Session = Depends(get_db)):
-    studentModelo = Student(**request.dict())
-    studentModelo.senha = get_password_hash(studentModelo.senha) 
-    student = StudentRepository.save_student(db, studentModelo)
+    fieldsValidation = StudentRepository.validate_student(request)
+    if not fieldsValidation['completeStatus']:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=fieldsValidation)
+    
+    studentModel = Student(**request.dict())
+    studentModel.senha = get_password_hash(studentModel.senha) 
+
+    if StudentRepository.exists_by_cpf_student(db, studentModel.cpf):
+        print("Já existe um login cadastrado")
+        raise HTTPException(status_code=400, detail="login já cadastrado") 
+       
+    student = StudentRepository.save_student(db, studentModel)
     return StudentResponse.from_orm(student)
+    
 
 @router_student.get("/", response_model=List[StudentResponse]) 
 def find_all_student(db: Session = Depends(get_db)):
@@ -50,7 +60,15 @@ def delete_student_by_login(login : str, db : Session =  Depends(get_db)):
 
 @router_student.put("/", response_model= StudentResponse)
 def update_student_by_login(request: StudentRequest, db : Session = Depends(get_db)):
-
+    fieldsValidation = StudentRepository.validate_student(request)
+    if not fieldsValidation['completeStatus']:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=fieldsValidation)
+    
+    cpf = request.cpf
+    if not StudentRepository.exists_by_cpf_student(db, cpf):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="student não encontrado")
+    
     student = StudentRepository.update_by_login(db, request)
     return StudentResponse.from_orm(student)
 

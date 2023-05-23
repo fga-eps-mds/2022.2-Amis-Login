@@ -54,7 +54,7 @@ class Student(Base):
     nome : str = Column(String(70) , nullable = False)
     login : str = Column(String(70) , primary_key = True, nullable = False)
     senha : str = Column(String(128), nullable = False)
-    status = Column(EnumDB(Status), nullable=False)
+    status : Enum = Column(EnumDB(Status), nullable=False)
     telefone : str = Column(String(11), nullable = False)
 
 
