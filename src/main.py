@@ -21,10 +21,13 @@ app.add_middleware(
 # Routers
 from .interfaces.controllers.user_controller import router as login_router
 from .interfaces.controllers.student_controller import router_student 
+from .interfaces.controllers.teacher_controller import router_teacher
+
 from .config import settings
 
 app.include_router(login_router)
 app.include_router(router_student)
+app.include_router(router_teacher)
 
 
 
