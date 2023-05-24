@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from typing import List
 
-from src.domain.repositories.student_repository import StudentRepository
+from src.infrastructure.repositories.student_repository import StudentRepository
 from ...domain.models.student import Student
 from ...database import engine, Base, get_db
 from ...domain.models.student import StudentRequest, StudentResponse
