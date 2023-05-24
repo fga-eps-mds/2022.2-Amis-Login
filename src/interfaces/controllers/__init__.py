@@ -1,9 +1,10 @@
-from application.social_worker_service import SocialWorkerService
-from infrastructure.repositories.tokens_repository import TokensRepository
-from infrastructure.repositories.social_worker_repository import SocialWorkerRepository
+from src.application.social_worker_service import SocialWorkerService
+from src.infrastructure.repositories.tokens_repository import TokensRepository
+from src.infrastructure.repositories.social_worker_repository import SocialWorkerRepository
+from src.database import get_db
 
-
-socialWorkerRepository = SocialWorkerRepository()
+[databaseSession] = get_db()
+socialWorkerRepository = SocialWorkerRepository(databaseSession)
 tokensRepository = TokensRepository()
 socialWorkersService = SocialWorkerService(
   socialWorkersRepository=socialWorkerRepository,

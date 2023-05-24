@@ -1,12 +1,12 @@
-from database import get_db
-from database import engine, Base
+from src.database import get_db
+from src.database import engine, Base
 from sqlalchemy.orm import Session
-from domain.models.social_worker import SocialWorkerResponse, SocialWorkerRequest
-from domain.models.social_worker import SocialWorker, SocialWorkerDB
-from security import get_password_hash
+from src.domain.models.social_worker import SocialWorkerResponse, SocialWorkerRequest
+from src.domain.models.social_worker import SocialWorker, SocialWorkerDB
+from src.security import get_password_hash
 from fastapi import APIRouter, Depends, status, HTTPException, Response
 
-from interfaces.controllers import socialWorkersService
+from src.interfaces.controllers import socialWorkersService
 
 Base.metadata.create_all(bind=engine)
 

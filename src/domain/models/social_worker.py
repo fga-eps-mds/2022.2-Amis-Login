@@ -1,7 +1,8 @@
-from database import Base
-from pydantic import BaseModel
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Boolean
+from pydantic import BaseModel
 
+Base = declarative_base()
 
 class SocialWorkerDB(Base):
     '''Classe para estabelecer o modelo da tabela na DB'''

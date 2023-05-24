@@ -1,9 +1,9 @@
-from domain.models.social_worker import SocialWorker, SocialWorkerDB, SocialWorkerRequest
-from domain.repositories.tokens_repository import TokensRepositoryBaseModel
+from src.domain.models.social_worker import SocialWorker, SocialWorkerDB, SocialWorkerRequest
+from src.domain.repositories.tokens_repository import TokensRepositoryBaseModel
 from src.security import verify_password
 from src.domain.repositories.social_worker_repository import SocialWorkerRepositoryBaseModel
 from fastapi import HTTPException, status
-from infrastructure.repositories.field_repository import FieldValidation
+from src.infrastructure.repositories.field_repository import FieldValidation
 
 
 class SocialWorkerService():

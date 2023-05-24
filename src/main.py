@@ -1,5 +1,5 @@
-from interfaces.controllers.social_worker_controller import router as assistente_router
-from interfaces.controllers.user_controller import router as login_router
+from src.interfaces.controllers.social_worker_controller import router as assistente_router
+from src.interfaces.controllers.user_controller import router as login_router
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from dotenv import load_dotenv
