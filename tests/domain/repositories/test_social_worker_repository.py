@@ -7,38 +7,28 @@ sys.path.append(str(Path(__file__).resolve().parents[3]))
 from unittest.mock import MagicMock
 from sqlalchemy.orm import Session
 from src.domain.models.social_worker import SocialWorkerDB, SocialWorker
-from src.infrastructure.repositories.field_repository import FieldValidation
-
-import unittest
-from unittest.mock import Mock
+from src.infrastructure.repositories.social_worker_repository import SocialWorkerRepository
 from fastapi import HTTPException, status
 from src.domain.models.social_worker import SocialWorker, SocialWorkerDB, SocialWorkerRequest, SocialWorkerResponse
-from src.domain.repositories.tokens_repository import TokensRepositoryBaseModel
 from src.security import verify_password
-from src.domain.repositories.social_worker_repository import SocialWorkerRepositoryBaseModel
-from src.infrastructure.repositories.field_repository import FieldValidation
 from src.infrastructure.repositories.social_worker_repository import SocialWorkerRepository
-
 from src.main import app
-
-from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 from unittest.mock import patch
 import pytest
-
 from unittest.mock import MagicMock, patch
-from fastapi import status
 from unittest import mock
 
 
 def test_find_all():
     # Arrange
     database = MagicMock(spec=Session)
+    socialWorkerRepository = SocialWorkerRepository(database)
     expected_result = [SocialWorkerDB(), SocialWorkerDB()]
     database.query().all.return_value = expected_result
 
     # Act
-    result = SocialWorkerRepository.find_all(database)
+    result = socialWorkerRepository.find_all()
 
     # Assert
     assert result == expected_result
@@ -49,9 +39,11 @@ def test_save_new_social_worker():
     database = MagicMock(spec=Session)
     social_worker = SocialWorkerDB(login='john.doe', nome='John Doe', senha='123456', cpf='07497533150')
     database.query().filter().first.return_value = None
+    socialWorkerRepository = SocialWorkerRepository(database)
+
 
     # Act
-    result = SocialWorkerRepository.save(database, social_worker)
+    result = socialWorkerRepository.save(social_worker)
 
     # Assert
     assert result == social_worker
@@ -72,8 +64,9 @@ def test_validateSocialWorker():
         email='john@example.com',
         administrador=False
     )
-    
-    result = SocialWorkerRepository().validateSocialWorker(social_worker)
+
+    database = MagicMock(spec=Session)
+    result = SocialWorkerRepository(database).validateSocialWorker(social_worker)
 
     assert result['nome']['status'] is True
     assert result['login']['status'] is True
@@ -100,7 +93,8 @@ def test_invalidateSocialWorker():
         administrador=False
     )
     
-    result = SocialWorkerRepository().validateSocialWorker(social_worker)
+    database = MagicMock(spec=Session)
+    result = SocialWorkerRepository(database).validateSocialWorker(social_worker)
 
     assert result['nome']['status'] is True
     assert result['login']['status'] is True
@@ -127,7 +121,8 @@ def test_invalidateSocialWorker_2():
         administrador=False
     )
     
-    result = SocialWorkerRepository().validateSocialWorker(social_worker)
+    database = MagicMock(spec=Session)
+    result = SocialWorkerRepository(database).validateSocialWorker(social_worker)
 
     assert result['nome']['status'] is True
     assert result['login']['status'] is True
