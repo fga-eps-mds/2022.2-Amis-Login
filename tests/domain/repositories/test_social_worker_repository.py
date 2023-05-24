@@ -8,7 +8,27 @@ from unittest.mock import MagicMock
 from sqlalchemy.orm import Session
 from src.domain.models.social_worker import SocialWorkerDB, SocialWorker
 from src.infrastructure.repositories.field_repository import FieldValidation
-from src.domain.repositories.social_worker_repository import SocialWorkerRepository
+
+import unittest
+from unittest.mock import Mock
+from fastapi import HTTPException, status
+from src.domain.models.social_worker import SocialWorker, SocialWorkerDB, SocialWorkerRequest, SocialWorkerResponse
+from src.domain.repositories.tokens_repository import TokensRepositoryBaseModel
+from src.security import verify_password
+from src.domain.repositories.social_worker_repository import SocialWorkerRepositoryBaseModel
+from src.infrastructure.repositories.field_repository import FieldValidation
+from src.infrastructure.repositories.social_worker_repository import SocialWorkerRepository
+
+from src.main import app
+
+from fastapi.testclient import TestClient
+from sqlalchemy.orm import Session
+from unittest.mock import patch
+import pytest
+
+from unittest.mock import MagicMock, patch
+from fastapi import status
+from unittest import mock
 
 
 def test_find_all():
@@ -118,3 +138,38 @@ def test_invalidateSocialWorker_2():
     assert result['telefone']['status'] is False
     assert result['email']['status'] is True
     assert result['completeStatus'] is False
+
+@mock.patch("infrastructure.repositories.social_worker_repository.SocialWorkerRepository")
+def test_find_all(mock_repository):
+    # Criação do mock do repositório
+    mock_repository_instance = mock_repository.return_value
+    mock_repository_instance.find_all.return_value = [
+        SocialWorkerResponse(
+            nome="John Doe",
+            login="john.doe",
+            senha="123456789",
+            cpf="07497533150",
+            dNascimento="2000-01-01",
+            observacao="Observation",
+            email="john.doe@example.com",
+            telefone="12345678912",
+            administrador=True
+        )
+    ]
+
+    social_workers = mock_repository_instance.find_all()
+
+
+    mock_repository_instance.find_all.assert_called_once()
+
+    # Verifica o resultado retornado pela função
+    assert len(social_workers) == 1
+    assert social_workers[0].nome == "John Doe"
+    assert social_workers[0].login == "john.doe"
+    assert social_workers[0].senha == "123456789"
+    assert social_workers[0].cpf == "07497533150"
+    assert social_workers[0].dNascimento == "2000-01-01"
+    assert social_workers[0].observacao == "Observation"
+    assert social_workers[0].email == "john.doe@example.com"
+    assert social_workers[0].telefone == "12345678912"
+    assert social_workers[0].administrador is True
