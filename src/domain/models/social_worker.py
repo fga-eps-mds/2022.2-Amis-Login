@@ -16,6 +16,7 @@
 
 from pydantic import BaseModel
 class SocialWorker(BaseModel):
+  
   id: int 
   nome: str
   login: str

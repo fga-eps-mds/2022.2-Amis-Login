@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+ENV PYTHONPATH "/app/src"
+
 RUN pip install -r requirements.txt
  
 EXPOSE 9090

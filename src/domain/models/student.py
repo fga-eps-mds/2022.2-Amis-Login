@@ -1,7 +1,6 @@
-from lib2to3.pytree import Base
 from pydantic import BaseModel
 from enum import Enum
-from ...database import Base
+from src.database import Base
 
 '''Importando parâmetros da orm'''
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Index
@@ -42,6 +41,7 @@ class StudentResponse(StudentBase):
 
 class Student(Base):
     __tablename__ = "students"
+    __table_args__ = {"extend_existing": True}
 
     bairro : str = Column(String(100), nullable = False)
     cep : str = Column(String(8), nullable = False)

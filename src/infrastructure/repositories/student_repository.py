@@ -1,44 +1,42 @@
 from sqlalchemy.orm import Session
-from ...domain.models.student import Student
+from src.domain.models.student import Student
 from typing import List
-from fastapi import FastAPI, Depends, APIRouter, HTTPException, status, Response
+from fastapi import HTTPException, status
 from ...infrastructure.repositories.field_repository import FieldValidation
+from src.domain.repositories import student_repository
 
 
 class StudentRepository:
-    
-    @staticmethod
-    def save_student(db: Session, student: Student) -> Student:
+    __db: Session
+    def __init__(self, session: Session):
+        self.__db = session
+
+    def save_student(self, student: Student) -> Student:
         if student.login:
-            db.merge(student)
+            self.__db.merge(student)
         else:
-            db.add(student)
-        db.commit()
+            self.__db.add(student)
+        self.__db.commit()
         return student
 
-    @staticmethod
-    def find_all_student(db: Session) -> List[Student]:
-        return db.query(Student).all()
+    def find_all_student(self) -> List[Student]:
+        return self.__db.query(Student).all()
     
-    @staticmethod
-    def find_by_login_student(db : Session, login : str) -> Student:
-        return db.query(Student).filter(Student.login == login).first()
+    def find_by_login_student(self, login : str) -> Student:
+        return self.__db.query(Student).filter(Student.login == login).first()
     
-    @staticmethod
-    def exists_by_cpf_student(db: Session, cpf: str) -> bool:
-        return db.query(Student).filter(Student.cpf == cpf).first() is not None 
+    def exists_by_cpf_student(self, cpf: str) -> bool:
+        return self.__db.query(Student).filter(Student.cpf == cpf).first() is not None 
 
-    @staticmethod
-    def delete_by_login_student(db: Session, login: str) -> None:
-        student = db.query(Student).filter(Student.login == login).first()
+    def delete_by_login_student(self, login: str) -> None:
+        student = self.__db.query(Student).filter(Student.login == login).first()
         if student is not None:
-            db.delete(student)
-            db.commit()
+            self.__db.delete(student)
+            self.__db.commit()
 
-    @staticmethod
-    def update_by_login(db: Session, student_request: Student) -> Student:
+    def update_by_login(self, student_request: Student) -> Student:
 
-        student = StudentRepository.find_by_login_student(db, student_request.login) 
+        student = StudentRepository.find_by_login_student(self, login=student_request.login) 
         if not student:
             raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND, detail="student não encontrado"
@@ -57,11 +55,10 @@ class StudentRepository:
         student.status = student_request.status
         student.telefone = student_request.telefone
         
-        StudentRepository.save_student(db, student)
+        StudentRepository.save_student(self, student=student)
         return student
 
-    @staticmethod
-    def validate_student(student: Student) -> dict:
+    def validate_student(self, student: Student) -> dict:
         '''Função para validar os campos de um objeto SocialWorker'''
 
         fieldInfoDict = {}
@@ -89,9 +86,11 @@ class StudentRepository:
         completeStatus = True
         for key in fieldInfoDict:
             if fieldInfoDict[key]['status'] == False:
+                print("Deu merda no: ", key, fieldInfoDict[key]['detail'])
                 completeStatus = False
                 break
         fieldInfoDict['completeStatus'] = completeStatus
 
         return fieldInfoDict
-        
+
+assert isinstance(StudentRepository(session={}), student_repository.StudentRepository)
