@@ -1,6 +1,6 @@
 from database import Base
 from pydantic import BaseModel
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, String, Boolean
 
 
 class SocialWorkerDB(Base):
@@ -9,7 +9,7 @@ class SocialWorkerDB(Base):
     __table_args__ = {"extend_existing": True}
 
     nome: str = Column(String(100), nullable=False)
-    login: str = Column(String(100),primary_key=True, nullable=False)
+    login: str = Column(String(100), primary_key=True, nullable=False)
     senha: str = Column(String(100), nullable=False)
     cpf: str = Column(String(11), nullable=False)
     dNascimento: str = Column(String(10), nullable=False)
@@ -17,7 +17,6 @@ class SocialWorkerDB(Base):
     telefone: str = Column(String(11), nullable=False)
     email: str = Column(String(100), nullable=True)
     administrador: bool = Column(Boolean, nullable=False)
-
 
 
 class SocialWorker(BaseModel):
