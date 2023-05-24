@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Form, Header, HTTPException
-from infrastructure.repositories.social_worker_repository import SocialWorkerRepository
+from ...infrastructure.repositories.social_worker_repository import SocialWorkerRepository
 from infrastructure.repositories.tokens_repository import TokensRepository
 from src.application.social_worker_service import SocialWorkerService
 

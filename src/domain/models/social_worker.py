@@ -1,4 +1,5 @@
-from database import Base
+from src.database import Base
+#from ...database import Base
 from pydantic import BaseModel
 from sqlalchemy import Column, Integer, String, Boolean
 
