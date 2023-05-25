@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Form, Header, HTTPException, status
 
-from src.interfaces.controllers import socialWorkersService
+from interfaces.controllers import socialWorkersService
 
 router = APIRouter(
     prefix='/login',

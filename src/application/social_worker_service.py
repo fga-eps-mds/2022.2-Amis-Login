@@ -23,7 +23,7 @@ class SocialWorkerService():
 
         if not socialWorker or not verify_password(password, socialWorker.senha):
             raise HTTPException(
-                status_code=status.HTTP_403_UNAUTHORIZED,
+                status_code=status.HTTP_403_FORBIDDEN,
                 detail="Email ou nome de usuário incorretos"
             )
 

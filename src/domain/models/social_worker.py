@@ -27,8 +27,8 @@ class SocialWorker(BaseModel):
     cpf: str
     dNascimento: str
     observacao: str
-    email: str
     telefone: str
+    email: str
     administrador: bool
 
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-
+from enum import Enum
 import re
 
 
@@ -17,6 +17,8 @@ class FieldValidation:
     def nomeValidation(cls, nome: str) -> fieldInfo:
         if len(nome) > 70:
             return fieldInfo(False, "Nome muito grande")
+        elif len(nome) == 0:
+            return fieldInfo(False, "Nome não pode ser vazio")
         return fieldInfo(True, "Nome válido")
 
     @classmethod
@@ -100,3 +102,36 @@ class FieldValidation:
             return fieldInfo(False, "Login muito pequeno")
 
         return fieldInfo(True, "Login válido")
+    
+    @classmethod
+    def statusValidation(cls, status: Enum):
+        if status.value < 1 or status.value > 3:
+            return fieldInfo(False, "Status inválido")
+        
+        return fieldInfo(True, "Status válido")
+    
+    @classmethod
+    def cepValidation(cls, cep : str):
+        if len(cep) > 8:
+            return fieldInfo(False, "CEP muito grande")
+        
+        pattern = r'^\d{8}$'
+        if not re.match(pattern, cep):
+            return fieldInfo(False, "Formato de CEP inválido")
+        
+        return fieldInfo(True, "CEP válido")
+    
+    @classmethod
+    def bairroValidation(cls, bairro : str):
+        if len(bairro) > 100:
+            return fieldInfo(False, "Bairro muito grande")
+        
+        return fieldInfo(True, "Bairro válido")
+    
+    @classmethod
+    def cidadeValidation(cls, cidade : str):
+        if len(cidade) > 100:
+            return fieldInfo(False, "Cidade muito grande")
+        
+        return fieldInfo(True, "Cidade válida")
+        
