@@ -21,7 +21,7 @@ router_student = APIRouter(
 ### student ###
 @router_student.post("/", response_model = StudentResponse, status_code=status.HTTP_201_CREATED)
 def create_student(request: StudentRequest):
-    fieldsValidation = studentRepository.validate_student()
+    fieldsValidation = studentRepository.validate_student(request)
     if not fieldsValidation['completeStatus']:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=fieldsValidation)
     
