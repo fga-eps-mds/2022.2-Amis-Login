@@ -38,7 +38,6 @@ class FieldValidation:
 
     @classmethod
     def cpfValidation(cls, cpf: str) -> fieldInfo:
-        print("Cpf foda: ", cpf)
         if len(cpf) > 11:
             return fieldInfo(False, "CPF muito grande")
 
