@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from src.domain.models.student import Student
 from typing import List
 from fastapi import HTTPException, status
-from ...infrastructure.repositories.field_repository import FieldValidation
+from infrastructure.repositories.field_repository import FieldValidation
 from src.domain.repositories import student_repository
 
 

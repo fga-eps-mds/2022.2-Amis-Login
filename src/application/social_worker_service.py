@@ -111,6 +111,12 @@ class SocialWorkerService():
         '''Função para verificar se existe um objeto SocialWorker com o login dado'''
         return self.__socialWorkersRepository__.find_by_login(login=login) is not None
     
+  
+    def delete_refresh_token(self, refresh_token: str):
+        self.__tokensRepository__.delete_refresh_token(refresh_token)
+            
+        return None
+
     def save(self, SocialWorkerSent: SocialWorkerDB) -> SocialWorkerDB:
         '''Função para salvar um objeto SocialWorker na DB, utilizada também como update'''
         return self.__socialWorkersRepository__.save(SocialWorkerSent=SocialWorkerSent)

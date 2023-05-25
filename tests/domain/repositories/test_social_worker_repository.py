@@ -12,7 +12,6 @@ from fastapi import HTTPException, status
 from src.domain.models.social_worker import SocialWorker, SocialWorkerDB, SocialWorkerRequest, SocialWorkerResponse
 from src.security import verify_password
 from src.infrastructure.repositories.social_worker_repository import SocialWorkerRepository
-from src.main import app
 from sqlalchemy.orm import Session
 from unittest.mock import patch
 import pytest

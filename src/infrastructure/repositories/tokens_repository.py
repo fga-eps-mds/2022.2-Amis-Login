@@ -4,7 +4,7 @@ from typing import Union, Any
 from src.domain.models.tokens import RefreshTokens
 from src.domain.repositories.tokens_repository import TokensRepositoryBaseModel
 from src.security import ACCESS_TOKEN_EXPIRE_HOURS, SECRET_KEY, ALGORITHM, REFRESH_TOKEN_EXPIRE_HOURS
-
+from domain.repositories.tokens_repository import TokensRepositoryBaseModel
 class TokensRepository():
   __RefreshTokens__: list[RefreshTokens] = []
 
@@ -50,3 +50,10 @@ class TokensRepository():
     
     return decodedJwt
 
+  def delete_refresh_token(self, refresh_token: str) -> None:
+      for index, token in enumerate(self.__RefreshTokens__):
+        if(token.refreshToken == refresh_token):
+          self.__RefreshTokens__.pop(index)
+          break
+
+assert isinstance(TokensRepository(), TokensRepositoryBaseModel)
