@@ -2,8 +2,9 @@
 
 <center>
 <div >
-    <img src="/assets/logo.jpeg"/> </div>
+    <img src="./assets/AMIS.png" height="50"/> </div>
 </center>
+<br/>
 
 ## Sobre o Projeto
 
@@ -13,7 +14,7 @@ A principal tônica do projeto é oferecer suporte as atividades das ONG's, apoi
 
 Este repositório contém o código-fonte do backend do projeto AMIS, seguindo uma arquitetura de microserviços, sendo este o microserviço de usuários, que acomoda o login, logout e as funcionalidades relacionadas a assistente social, aluno, professor.
 
-## Tecnologias
+## Tecnologias do Projeto
 
 <div style="display: flex">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original-wordmark.svg" width="50px"/>
@@ -27,7 +28,7 @@ Este repositório contém o código-fonte do backend do projeto AMIS, seguindo u
 ## Arquitetura dos Microserviços
 
 <div align="center">
-<img src="/assets/arquitetura.png" width=600px />
+<img src="./assets/arquitetura.png" width=600px />
 </div>
 
 
@@ -60,8 +61,13 @@ sudo docker-compose up --build
 pyteste
 ```
 
-## Deploy
+## Licença
+O AMIS está sob as regras aplicadas na [Licença MIT](./LICENSE).
 
-- O deploy deste ambiente integrado com o Front-end encontra-se em:
+## Contribuição
+Para contribuir com o projeto, certifique-se de ler o [Guia de Contribuição](https://fga-eps-mds.github.io/2023.1-Amis-Doc/#/organization/contribution-guide).
+
+
+## Deploy
 
 [Ambiente AMIS](http://100.27.26.213:5173/)
