@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="27" time="5.850" timestamp="2023-05-26T04:50:31.431580" hostname="8da3c9ce0ab1"><testcase classname="tests.application.test_social_worker_service" name="test_failed_login" time="5.030" /><testcase classname="tests.application.test_social_worker_service" name="test_verify_token" time="0.003" /><testcase classname="tests.application.test_social_worker_service" name="test_refresh_session" time="0.003" /><testcase classname="tests.application.test_social_worker_service" name="test_failed_refresh_session_invalid_token" time="0.003" /><testcase classname="tests.application.test_social_worker_service" name="test_delete_refresh_token" time="0.003" /><testcase classname="tests.domain.repositories.test_social_worker_repository" name="test_find_all" time="0.004" /><testcase classname="tests.domain.repositories.test_social_worker_repository" name="test_save_new_social_worker" time="0.104" /><testcase classname="tests.domain.repositories.test_social_worker_repository" name="test_validateSocialWorker" time="0.004" /><testcase classname="tests.domain.repositories.test_social_worker_repository" name="test_invalidateSocialWorker" time="0.002" /><testcase classname="tests.domain.repositories.test_social_worker_repository" name="test_invalidateSocialWorker_2" time="0.001" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_save_student" time="0.003" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_find_all_student" time="0.001" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_find_by_login_student" time="0.001" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_exists_by_cpf_student" time="0.001" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_delete_by_login_student" time="0.003" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_update_by_login" time="0.002"><failure message="TypeError: StudentRepository.find_by_login_student() got multiple values for argument 'login'">def test_update_by_login():
+        student_repo = StudentRepository(mock_db_session)
+        student = Student(**test_student_data)
+    
+        with pytest.raises(HTTPException) as exc:
+&gt;           student_repo.update_by_login(student)
+
+tests/domain/repositories/test_student_repository.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;infrastructure.repositories.student_repository.StudentRepository object at 0x7f59d2d77760&gt;
+student_request = &lt;domain.models.student.Student object at 0x7f59d2d776d0&gt;
+
+    def update_by_login(self, student_request: Student) -&gt; Student:
+    
+&gt;       student = self.find_by_login_student(self, login=student_request.login)
+E       TypeError: StudentRepository.find_by_login_student() got multiple values for argument 'login'
+
+src/infrastructure/repositories/student_repository.py:42: TypeError</failure></testcase><testcase classname="tests.domain.repositories.test_student_repository" name="test_save_student_existing_login" time="0.002" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_find_by_login_student_existing_login" time="0.002"><failure message="assert None == &lt;domain.models.student.Student object at 0x7f59d2ea0f10&gt;">def test_find_by_login_student_existing_login():
+        student_repo = StudentRepository(mock_db_session)
+        existing_student = Student(**test_student_data)
+        existing_student.login = "existinguser"
+        mock_db_session().first = lambda: existing_student
+    
+        result = student_repo.find_by_login_student("existinguser")
+    
+&gt;       assert result == existing_student
+E       assert None == &lt;domain.models.student.Student object at 0x7f59d2ea0f10&gt;
+
+tests/domain/repositories/test_student_repository.py:128: AssertionError</failure></testcase><testcase classname="tests.domain.repositories.test_student_repository" name="test_exists_by_cpf_student_existing_cpf" time="0.002"><failure message="assert False is True">def test_exists_by_cpf_student_existing_cpf():
+        student_repo = StudentRepository(mock_db_session)
+        existing_student = Student(**test_student_data)
+        existing_student.cpf = "12345678901"
+        mock_db_session.first = lambda: existing_student
+    
+        result = student_repo.exists_by_cpf_student("12345678901")
+    
+&gt;       assert result is True
+E       assert False is True
+
+tests/domain/repositories/test_student_repository.py:139: AssertionError</failure></testcase><testcase classname="tests.domain.repositories.test_student_repository" name="test_delete_by_login_student_existing_login" time="0.001" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_update_by_login_existing_login" time="0.001"><failure message="TypeError: StudentRepository.find_by_login_student() got multiple values for argument 'login'">def test_update_by_login_existing_login():
+        student_repo = StudentRepository(mock_db_session)
+        existing_student = Student(**test_student_data)
+        existing_student.login = "existinguser"
+        mock_db_session.first = lambda: existing_student
+    
+&gt;       result = student_repo.update_by_login(existing_student)
+
+tests/domain/repositories/test_student_repository.py:159: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;infrastructure.repositories.student_repository.StudentRepository object at 0x7f59d23befe0&gt;
+student_request = &lt;domain.models.student.Student object at 0x7f59d23bef80&gt;
+
+    def update_by_login(self, student_request: Student) -&gt; Student:
+    
+&gt;       student = self.find_by_login_student(self, login=student_request.login)
+E       TypeError: StudentRepository.find_by_login_student() got multiple values for argument 'login'
+
+src/infrastructure/repositories/student_repository.py:42: TypeError</failure></testcase><testcase classname="tests.domain.repositories.test_student_repository" name="test_save_student_without_login" time="0.004" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_find_by_login_student_nonexistent_login" time="0.001" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_exists_by_cpf_student_nonexistent_cpf" time="0.002" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_update_by_login_nonexistent_login" time="0.001"><failure message="TypeError: StudentRepository.find_by_login_student() got multiple values for argument 'login'">def test_update_by_login_nonexistent_login():
+        student_repo = StudentRepository(mock_db_session)
+        mock_db_session.first = lambda: None
+    
+        with pytest.raises(HTTPException) as exc:
+&gt;           student_repo.update_by_login(
+                student_request=Student(**test_student_data))
+
+tests/domain/repositories/test_student_repository.py:197: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;infrastructure.repositories.student_repository.StudentRepository object at 0x7f59d2d6c790&gt;
+student_request = &lt;domain.models.student.Student object at 0x7f59d2d6c8e0&gt;
+
+    def update_by_login(self, student_request: Student) -&gt; Student:
+    
+&gt;       student = self.find_by_login_student(self, login=student_request.login)
+E       TypeError: StudentRepository.find_by_login_student() got multiple values for argument 'login'
+
+src/infrastructure/repositories/student_repository.py:42: TypeError</failure></testcase><testcase classname="tests.domain.repositories.test_student_repository" name="test_validate_student_complete_fields" time="0.001" /><testcase classname="tests.domain.repositories.test_student_repository" name="test_validate_student_incomplete_fields" time="0.001" /></testsuite></testsuites>

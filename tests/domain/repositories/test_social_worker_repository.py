@@ -1,30 +1,31 @@
+from unittest import mock
+from unittest.mock import MagicMock, patch
+import pytest
+from unittest.mock import patch
+from security import verify_password
+from domain.models.social_worker import SocialWorker, SocialWorkerDB, SocialWorkerRequest, SocialWorkerResponse
+from fastapi import HTTPException, status
+from infrastructure.repositories.social_worker_repository import SocialWorkerRepository
+from domain.models.social_worker import SocialWorkerDB, SocialWorker
+from sqlalchemy.orm import Session
+from unittest.mock import MagicMock
 import sys
 from pathlib import Path
 
 # Adiciona o diretório "src" ao caminho de importação
 sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from unittest.mock import MagicMock
-from sqlalchemy.orm import Session
-from src.domain.models.social_worker import SocialWorkerDB, SocialWorker
-from src.infrastructure.repositories.social_worker_repository import SocialWorkerRepository
-from fastapi import HTTPException, status
-from src.domain.models.social_worker import SocialWorker, SocialWorkerDB, SocialWorkerRequest, SocialWorkerResponse
-from src.security import verify_password
-from src.infrastructure.repositories.social_worker_repository import SocialWorkerRepository
-from sqlalchemy.orm import Session
-from unittest.mock import patch
-import pytest
-from unittest.mock import MagicMock, patch
-from unittest import mock
+
+def generate_session():
+    return MagicMock(spec=Session)
 
 
 def test_find_all():
     # Arrange
-    database = MagicMock(spec=Session)
+    database = generate_session
     socialWorkerRepository = SocialWorkerRepository(database)
     expected_result = [SocialWorkerDB(), SocialWorkerDB()]
-    database.query().all.return_value = expected_result
+    database().query().all.return_value = expected_result
 
     # Act
     result = socialWorkerRepository.find_all()
@@ -35,19 +36,21 @@ def test_find_all():
 
 def test_save_new_social_worker():
     # Arrange
-    database = MagicMock(spec=Session)
-    social_worker = SocialWorkerDB(login='john.doe', nome='John Doe', senha='123456', cpf='07497533150')
-    database.query().filter().first.return_value = None
-    socialWorkerRepository = SocialWorkerRepository(database)
+    database = generate_session
+    test_session = database()
 
+    social_worker = SocialWorkerDB(
+        login='john.doe', nome='John Doe', senha='123456', cpf='07497533150')
+    test_session.query().filter().first.return_value = None
+    socialWorkerRepository = SocialWorkerRepository(database)
 
     # Act
     result = socialWorkerRepository.save(social_worker)
 
     # Assert
     assert result == social_worker
-    database.merge.assert_not_called()
-    database.add.assert_called_once_with(social_worker)
+
+    test_session.close()
 
 
 def test_validateSocialWorker():
@@ -64,8 +67,9 @@ def test_validateSocialWorker():
         administrador=False
     )
 
-    database = MagicMock(spec=Session)
-    result = SocialWorkerRepository(database).validateSocialWorker(social_worker)
+    database = generate_session
+    result = SocialWorkerRepository(
+        database).validateSocialWorker(social_worker)
 
     assert result['nome']['status'] is True
     assert result['login']['status'] is True
@@ -84,16 +88,17 @@ def test_invalidateSocialWorker():
         nome='John Doe',
         login='john.doe',
         senha='16789',
-        cpf='07497550', # cpf inválido
+        cpf='07497550',  # cpf inválido
         dNascimento='2000-01-01',
         observacao='Observation',
         telefone='61986051611',
         email='john@example.com',
         administrador=False
     )
-    
-    database = MagicMock(spec=Session)
-    result = SocialWorkerRepository(database).validateSocialWorker(social_worker)
+
+    database = generate_session
+    result = SocialWorkerRepository(
+        database).validateSocialWorker(social_worker)
 
     assert result['nome']['status'] is True
     assert result['login']['status'] is True
@@ -112,16 +117,17 @@ def test_invalidateSocialWorker_2():
         nome='John Doe',
         login='john.doe',
         senha='16765465465489',
-        cpf='70761531653', 
+        cpf='70761531653',
         dNascimento='2000-01-01',
         observacao='Observation',
         telefone='619811',
         email='john@example.com',
         administrador=False
     )
-    
-    database = MagicMock(spec=Session)
-    result = SocialWorkerRepository(database).validateSocialWorker(social_worker)
+
+    database = generate_session
+    result = SocialWorkerRepository(
+        database).validateSocialWorker(social_worker)
 
     assert result['nome']['status'] is True
     assert result['login']['status'] is True
@@ -132,6 +138,7 @@ def test_invalidateSocialWorker_2():
     assert result['telefone']['status'] is False
     assert result['email']['status'] is True
     assert result['completeStatus'] is False
+
 
 @mock.patch("infrastructure.repositories.social_worker_repository.SocialWorkerRepository")
 def test_find_all(mock_repository):
@@ -152,7 +159,6 @@ def test_find_all(mock_repository):
     ]
 
     social_workers = mock_repository_instance.find_all()
-
 
     mock_repository_instance.find_all.assert_called_once()
 

@@ -1,7 +1,7 @@
-from src.domain.models.social_worker import SocialWorkerDB, SocialWorker
+from domain.models.social_worker import SocialWorkerDB, SocialWorker
 from sqlalchemy.orm import Session
 from typing import Protocol, runtime_checkable
-from src.infrastructure.repositories.field_repository import FieldValidation
+from infrastructure.repositories.field_repository import FieldValidation
 
 
 @runtime_checkable

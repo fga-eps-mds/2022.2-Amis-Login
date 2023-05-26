@@ -3,10 +3,10 @@ from interfaces.controllers import studentRepository
 
 from typing import List
 
-from src.domain.models.student import Student
-from src.database import engine, Base
-from src.domain.models.student import StudentRequest, StudentResponse
-from src.security import get_password_hash
+from domain.models.student import Student
+from database import engine, Base
+from domain.models.student import StudentRequest, StudentResponse
+from security import get_password_hash
 
 Base.metadata.create_all(bind=engine)
 

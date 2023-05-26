@@ -1,6 +1,6 @@
-from src.domain.models.social_worker import SocialWorkerDB  # certo
-from src.domain.repositories import social_worker_repository
-from src.infrastructure.repositories.field_repository import FieldValidation
+from domain.models.social_worker import SocialWorkerDB  # certo
+from domain.repositories import social_worker_repository
+from infrastructure.repositories.field_repository import FieldValidation
 from sqlalchemy.orm import Session
 from typing import Callable
 

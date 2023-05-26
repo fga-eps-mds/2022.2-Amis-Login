@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import MagicMock, Mock, patch
-from src.application.social_worker_service import SocialWorkerService
-from src.domain.models.social_worker import SocialWorker
+from application.social_worker_service import SocialWorkerService
+from domain.models.social_worker import SocialWorker
 from fastapi.testclient import TestClient
 import requests
 

@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 from jose import jwt
 from typing import Union, Any
-from src.domain.models.tokens import RefreshTokens
-from src.domain.repositories.tokens_repository import TokensRepositoryBaseModel
-from src.security import ACCESS_TOKEN_EXPIRE_HOURS, SECRET_KEY, ALGORITHM, REFRESH_TOKEN_EXPIRE_HOURS
+from domain.models.tokens import RefreshTokens
+from domain.repositories.tokens_repository import TokensRepositoryBaseModel
+from security import ACCESS_TOKEN_EXPIRE_HOURS, SECRET_KEY, ALGORITHM, REFRESH_TOKEN_EXPIRE_HOURS
 from domain.repositories.tokens_repository import TokensRepositoryBaseModel
 class TokensRepository():
   __RefreshTokens__: list[RefreshTokens] = []
