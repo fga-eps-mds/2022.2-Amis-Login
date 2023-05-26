@@ -18,9 +18,7 @@ router = APIRouter(
 
 # CREATE
 
-@router.post("/",
-             response_model=SocialWorkerResponse,
-             status_code=status.HTTP_201_CREATED,)
+@router.post("/", status_code=status.HTTP_201_CREATED,)
 def create(social_worker_request: SocialWorkerRequest, database: Session = Depends(get_db)):
     fieldsValidation = socialWorkersService.validate_social_worker(
         social_worker_request
@@ -34,14 +32,12 @@ def create(social_worker_request: SocialWorkerRequest, database: Session = Depen
     social_worker_model.senha = get_password_hash(social_worker_model.senha)
 
     if socialWorkersService.exists_by_login(social_worker_model.login):
-        print("Já existe um login cadastrado")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="login já cadastrado")
 
-    social_worker = socialWorkersService.save(
-        SocialWorkerSent=social_worker_model)
+    socialWorkersService.save(socialWorkerSent=social_worker_model)
 
-    return social_worker
+    return social_worker_request
 
 
 # READ ALL

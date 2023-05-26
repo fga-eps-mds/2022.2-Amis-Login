@@ -4,39 +4,42 @@ from typing import List
 from fastapi import HTTPException, status
 from infrastructure.repositories.field_repository import FieldValidation
 from src.domain.repositories import student_repository
-
+from typing import Callable
 
 class StudentRepository:
-    __db: Session
-    def __init__(self, session: Session):
+    __db: Callable[[], Session]
+    def __init__(self, session: Callable[[], Session]):
         self.__db = session
 
     def save_student(self, student: Student) -> Student:
+        session = self.__db()
         if student.login:
-            self.__db.merge(student)
+            session.merge(student)
         else:
-            self.__db.add(student)
-        self.__db.commit()
+            session.add(student)
+        session.commit()
         return student
 
     def find_all_student(self) -> List[Student]:
-        return self.__db.query(Student).all()
+        return self.__db().query(Student).all()
     
     def find_by_login_student(self, login : str) -> Student:
-        return self.__db.query(Student).filter(Student.login == login).first()
+        return self.__db().query(Student).filter(Student.login == login).first()
     
     def exists_by_cpf_student(self, cpf: str) -> bool:
-        return self.__db.query(Student).filter(Student.cpf == cpf).first() is not None 
+        return self.__db().query(Student).filter(Student.cpf == cpf).first() is not None 
 
     def delete_by_login_student(self, login: str) -> None:
-        student = self.__db.query(Student).filter(Student.login == login).first()
+        session = self.__db()
+        student = session.query(Student).filter(Student.login == login).first()
         if student is not None:
-            self.__db.delete(student)
-            self.__db.commit()
+            session.delete(student)
+            session.commit()
+        return None
 
     def update_by_login(self, student_request: Student) -> Student:
 
-        student = StudentRepository.find_by_login_student(self, login=student_request.login) 
+        student = self.find_by_login_student(self, login=student_request.login) 
         if not student:
             raise HTTPException(
             status_code= status.HTTP_404_NOT_FOUND, detail="student não encontrado"
@@ -55,7 +58,7 @@ class StudentRepository:
         student.status = student_request.status
         student.telefone = student_request.telefone
         
-        StudentRepository.save_student(self, student=student)
+        self.save_student(self, student=student)
         return student
 
     def validate_student(self, student: Student) -> dict:
@@ -86,7 +89,6 @@ class StudentRepository:
         completeStatus = True
         for key in fieldInfoDict:
             if fieldInfoDict[key]['status'] == False:
-                print("Deu merda no: ", key, fieldInfoDict[key]['detail'])
                 completeStatus = False
                 break
         fieldInfoDict['completeStatus'] = completeStatus

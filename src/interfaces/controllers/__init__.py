@@ -4,9 +4,10 @@ from src.infrastructure.repositories.tokens_repository import TokensRepository
 from src.infrastructure.repositories.social_worker_repository import SocialWorkerRepository
 from src.application.student_service import StudentService
 from src.infrastructure.repositories.student_repository import StudentRepository
+from src.database import SessionLocal
 
-[databaseSession] = get_db()
-studentRepository = StudentRepository(databaseSession)
+databaseSessionGenerator = SessionLocal
+studentRepository = StudentRepository(databaseSessionGenerator)
 tokensRepository = TokensRepository()
 studentService = StudentService(
     studentRepository = studentRepository,
@@ -14,7 +15,7 @@ studentService = StudentService(
 )
 
 
-socialWorkerRepository = SocialWorkerRepository(databaseSession)
+socialWorkerRepository = SocialWorkerRepository(databaseSessionGenerator)
 socialWorkersService = SocialWorkerService(
   socialWorkersRepository=socialWorkerRepository,
   tokensRepository=tokensRepository

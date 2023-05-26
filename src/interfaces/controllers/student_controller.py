@@ -29,7 +29,6 @@ def create_student(request: StudentRequest):
     studentModel.senha = get_password_hash(studentModel.senha) 
 
     if studentRepository.exists_by_cpf_student(studentModel.cpf):
-        print("Já existe um login cadastrado")
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="login já cadastrado") 
        
     student = studentRepository.save_student(studentModel)

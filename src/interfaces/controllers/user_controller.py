@@ -46,8 +46,9 @@ async def refreshToken(refresh_token: str = Header(...)):
 
     raise HTTPException(401, "Not Allowed")
 
+
 @router.post("/logout")
 def logout(refresh_token: str = Header(...)):
     socialWorkersService.delete_refresh_token(refresh_token)
-    
+
     return {"message": "Logout realizado com sucesso"}
