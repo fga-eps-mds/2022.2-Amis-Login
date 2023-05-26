@@ -1,9 +1,8 @@
 # AMIS - UserService
 
-<center>
-<div >
+<p align="center" >
     <img src="./assets/AMIS.png" height="50"/> </div>
-</center>
+</p>
 <br/>
 
 ## Sobre o Projeto
