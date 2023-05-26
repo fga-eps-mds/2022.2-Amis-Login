@@ -26,6 +26,8 @@ jobs:
         run: pip install tox
       - name: Run tox
         run: tox -e py
+      - name: Cov
+        run: pytest -vv --cov=src --cov-report=term-missing
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
