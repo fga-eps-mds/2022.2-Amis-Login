@@ -1,5 +1,9 @@
 # AMIS - UserService
 
+<center>
+<div >
+    <img src="/assets/logo.jpeg"/> </div>
+</center>
 
 ## Sobre o Projeto
 
