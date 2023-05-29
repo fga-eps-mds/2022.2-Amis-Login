@@ -23,7 +23,6 @@ def create_teacher(request: TeacherRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=fieldsValidation)
     
     teacherModel = Teacher(**request.dict())
-
     if TeacherRepository.exists_by_codigo_teacher(db, teacherModel.cpf):
         print("Já existe um código cadastrado")
         raise HTTPException(status_code=400, detail="código já cadastrado") 
