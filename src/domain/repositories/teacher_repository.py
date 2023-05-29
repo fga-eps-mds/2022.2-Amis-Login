@@ -49,6 +49,7 @@ class TeacherRepository:
         Teacher.nome = Teacher.nome
         Teacher.telefone = Teacher.telefone
         Teacher.cursos = Teacher.cursos
+        Teacher.descricao = Teacher.descricao
 
         TeacherRepository.save_teacher(db, Teacher)
         return Teacher

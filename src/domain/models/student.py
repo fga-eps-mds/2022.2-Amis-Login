@@ -1,7 +1,7 @@
 from lib2to3.pytree import Base
 from pydantic import BaseModel
 from enum import Enum
-from ...database import Base
+from database import Base
 
 '''Importando parâmetros da orm'''
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Index

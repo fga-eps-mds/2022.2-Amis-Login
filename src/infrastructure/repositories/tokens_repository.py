@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 from jose import jwt
 from typing import Union, Any
-from ...domain.models.tokens import RefreshTokens
-from ...domain.repositories.tokens_repository import TokensRepositoryBaseModel
+from domain.models.tokens import RefreshTokens
+from domain.repositories.tokens_repository import TokensRepositoryBaseModel
 from src.security import ACCESS_TOKEN_EXPIRE_HOURS, SECRET_KEY, ALGORITHM, REFRESH_TOKEN_EXPIRE_HOURS
 
 class TokensRepository():

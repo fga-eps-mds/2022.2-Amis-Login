@@ -1,4 +1,4 @@
-from ...domain.models.social_worker import SocialWorker
+from domain.models.social_worker import SocialWorker
 from typing import Protocol, runtime_checkable
 
 @runtime_checkable

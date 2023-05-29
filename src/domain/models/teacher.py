@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from sqlalchemy import Column, Integer, String
-from ...database import Base
+from database import Base
 
 class TeacherBase(BaseModel):
     codigo : str
@@ -10,6 +10,7 @@ class TeacherBase(BaseModel):
     email : str
     nome : str
     telefone : str
+    descricao: str
 
 class TeacherRequest(TeacherBase):
     ...
@@ -30,3 +31,4 @@ class Teacher(Base):
     email : str = Column(String(256), nullable = True)
     nome : str = Column(String(70) , nullable = False)
     telefone : str = Column(String(11), nullable = False)
+    descricao: str = Column(String(100),nullable =False )

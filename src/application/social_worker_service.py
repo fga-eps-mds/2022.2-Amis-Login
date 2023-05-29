@@ -1,5 +1,5 @@
-from ..domain.repositories.social_worker_repository import SocialWorkerRepositoryBaseModel
-from ..domain.repositories.tokens_repository import TokensRepositoryBaseModel
+from domain.repositories.social_worker_repository import SocialWorkerRepositoryBaseModel
+from domain.repositories.tokens_repository import TokensRepositoryBaseModel
 from src.security import verify_password
 from src.domain.models.social_worker import SocialWorker
 from fastapi import HTTPException

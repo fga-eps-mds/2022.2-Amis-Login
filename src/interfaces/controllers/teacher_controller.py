@@ -2,10 +2,10 @@ from fastapi import FastAPI, Depends, APIRouter, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from typing import List
 from src.domain.repositories.teacher_repository import TeacherRepository
-from ...domain.models.teacher import Teacher
-from ...database import engine, Base, get_db
-from ...domain.models.teacher import TeacherRequest, TeacherResponse
-from ...security import get_password_hash
+from domain.models.teacher import Teacher
+from database import engine, Base, get_db
+from domain.models.teacher import TeacherRequest, TeacherResponse
+from security import get_password_hash
 
 Base.metadata.create_all(bind=engine)
 
