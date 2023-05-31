@@ -42,7 +42,7 @@ class StudentResponse(StudentBase):
 
 
 class Student(Base):
-    __tablename__ = "students"
+    __tablename__ = "student"
     __table_args__ = {"extend_existing": True}
 
     bairro: str = Column(String(100), nullable=False)

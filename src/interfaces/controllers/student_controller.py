@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status, Response
-from interfaces.controllers import studentRepository
+from interfaces.controllers import studentService
 
 from typing import List
 
@@ -21,54 +21,54 @@ router_student = APIRouter(
 ### student ###
 @router_student.post("/", response_model = StudentResponse, status_code=status.HTTP_201_CREATED)
 def create_student(request: StudentRequest):
-    fieldsValidation = studentRepository.validate_student(request)
+    fieldsValidation = studentService.validate_student(Student(**request.dict()))
     if not fieldsValidation['completeStatus']:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=fieldsValidation)
     
     studentModel = Student(**request.dict())
     studentModel.senha = get_password_hash(studentModel.senha) 
 
-    if studentRepository.exists_by_cpf_student(studentModel.cpf):
+    if studentService.exists_by_login(studentModel.login):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="login já cadastrado") 
        
-    student = studentRepository.save_student(studentModel)
+    student = studentService.save(studentModel)
     return StudentResponse.from_orm(student)
     
 
 @router_student.get("/", response_model=List[StudentResponse]) 
 def find_all_student():
-    student = studentRepository.find_all_student()
+    student = studentService.find_all()
     return[StudentResponse.from_orm(student) for student in student]
 
 @router_student.get("/{login}", response_model = StudentResponse)
 def find_by_login_student(login : str):
-    student = studentRepository.find_by_login_student(login)
+    student = studentService.find_by_login(login)
     if not student:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,  detail = "student não encontrado"
         )
     return StudentResponse.from_orm(student)
 
-@router_student.delete("/{login}", status_code= status.HTTP_204_NO_CONTENT)
-def delete_student_by_login(login : str):
-    if not studentRepository.find_by_login_student(login):
-        raise HTTPException(
-            status_code= status.HTTP_404_NOT_FOUND, detail="student não encontrado"
-        )
-    studentRepository.delete_by_login_student( login)
-    return Response(status_code = status.HTTP_204_NO_CONTENT)
-
-@router_student.put("/", response_model= StudentResponse)
+@router_student.put("/{login}", response_model= StudentResponse)
 def update_student_by_login(request: StudentRequest):
-    fieldsValidation = studentRepository.validate_student(request)
+    fieldsValidation = studentService.validate_student(request)
     if not fieldsValidation['completeStatus']:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=fieldsValidation)
     
-    cpf = request.cpf
-    if not studentRepository.exists_by_cpf_student(cpf):
+    login = request.login
+    if not studentService.exists_by_login(login):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="student não encontrado")
     
-    student = studentRepository.update_by_login(request)
+    student = studentService.save(Student(**request.dict()))
     return StudentResponse.from_orm(student)
 
+
+@router_student.delete("/{login}", status_code= status.HTTP_204_NO_CONTENT)
+def delete_student_by_login(login : str):
+    if not studentService.exists_by_login(login):
+        raise HTTPException(
+            status_code= status.HTTP_404_NOT_FOUND, detail="student não encontrado"
+        )
+    studentService.delete_by_login(login)
+    return Response(status_code = status.HTTP_204_NO_CONTENT)
