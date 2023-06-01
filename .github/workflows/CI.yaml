@@ -23,7 +23,7 @@ jobs:
           echo "${{ secrets.ENV_FILE }}" > .env
           cat .env
       - name : install requirements
-        run : pip instal -r requirements.txt
+        run : pip install -r requirements.txt
       - name: Install tox and any other packages
         run: pip install tox
       - name: Install pytest
