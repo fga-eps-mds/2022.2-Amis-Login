@@ -3,13 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from dotenv import load_dotenv
 load_dotenv()
-from src.interfaces.controllers.user_controller import router as login_router
-from interfaces.controllers.student_controller import router_student 
+from interfaces.controllers.user_controller import router as login_router
+from interfaces.controllers.social_worker_controller import router as assistente_router
+from interfaces.controllers.student_controller import router_student
 from interfaces.controllers.teacher_controller import router_teacher
-
-from .config import settings
-
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
@@ -27,8 +24,8 @@ app.add_middleware(
 
 app.include_router(login_router)
 app.include_router(router_student)
+app.include_router(assistente_router)
 app.include_router(router_teacher)
-
 
 
 @app.get('/')
