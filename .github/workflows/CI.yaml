@@ -24,6 +24,7 @@ jobs:
           cat .env
       - name: Install tox and any other packages
         run: pip install tox
+        run: pip3 install pytest
       - name: Run tox
         run: tox -e py
       - name: Cov
