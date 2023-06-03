@@ -1,6 +1,3 @@
-from config import settings
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
 from dotenv import load_dotenv
 load_dotenv()
 from interfaces.controllers.user_controller import router as login_router
@@ -8,6 +5,9 @@ from interfaces.controllers.social_worker_controller import router as assistente
 from interfaces.controllers.student_controller import router_student
 from interfaces.controllers.teacher_controller import router_teacher
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
+
+load_dotenv()
 app = FastAPI()
 
 origins = ["*"]
@@ -21,7 +21,6 @@ app.add_middleware(
 )
 
 # Routers
-
 app.include_router(login_router)
 app.include_router(router_student)
 app.include_router(assistente_router)
@@ -29,8 +28,5 @@ app.include_router(router_teacher)
 
 
 @app.get('/')
-async def hello_world():
-    return {
-        "db_type": settings.db_type,
-        "db_url": settings.db_url,
-    }
+async def root():
+    return {"message": "Amis !"}

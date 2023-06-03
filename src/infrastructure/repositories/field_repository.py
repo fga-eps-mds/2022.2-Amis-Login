@@ -17,6 +17,8 @@ class FieldValidation:
     def nomeValidation(cls, nome: str) -> fieldInfo:
         if len(nome) > 70:
             return fieldInfo(False, "Nome muito grande")
+        elif len(nome) == 0:
+            return fieldInfo(False, "Nome não pode ser vazio")
         return fieldInfo(True, "Nome válido")
 
     @classmethod

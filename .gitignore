@@ -1,7 +1,7 @@
 # Arquivos proprios do projeto a serem ignorados
 .env
 db-volume
-junit.xml
+# junit.xml
 analytics-raw-data/*
 
 # Arquivos padrões do fastapi para serem ignorados
@@ -18,7 +18,7 @@ htmlcov
 dist
 site
 .coverage
-coverage.xml
+# coverage.xml
 .netlify
 test.db
 log.txt
