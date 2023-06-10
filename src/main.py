@@ -1,8 +1,14 @@
 from dotenv import load_dotenv
+
 load_dotenv()
-from interfaces.controllers.user_controller import router as login_router
-from interfaces.controllers.social_worker_controller import router as assistente_router
+from interfaces.controllers.user_controller import (
+    routerLoginSocialWorker,
+    routerLoginStudent,
+    routerLoginTeacher,
+)
+from interfaces.controllers.social_worker_controller import router as router_assistente
 from interfaces.controllers.student_controller import router_student
+from interfaces.controllers.teacher_controller import router_teacher
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 
@@ -20,11 +26,14 @@ app.add_middleware(
 )
 
 # Routers
-app.include_router(login_router)
+app.include_router(routerLoginSocialWorker)
+app.include_router(routerLoginTeacher)
+app.include_router(routerLoginStudent)
 app.include_router(router_student)
-app.include_router(assistente_router)
+app.include_router(router_assistente)
+app.include_router(router_teacher)
 
 
-@app.get('/')
+@app.get("/")
 async def root():
     return {"message": "Amis !"}

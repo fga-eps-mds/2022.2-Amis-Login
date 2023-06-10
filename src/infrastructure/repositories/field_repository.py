@@ -134,4 +134,10 @@ class FieldValidation:
             return fieldInfo(False, "Cidade muito grande")
         
         return fieldInfo(True, "Cidade válida")
+    
+    @classmethod
+    def descricaoValidation(cls, descricao:str):
+        if len(descricao > 100):
+            return fieldInfo(False,"Descrição muito grande")
+        return fieldInfo(True,"Descrição válida")
         
