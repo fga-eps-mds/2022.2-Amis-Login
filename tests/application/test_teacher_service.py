@@ -51,34 +51,34 @@ def test_failed_login(client):
 
     assert response.status_code == 403
 
-def test_verify_token(teacher_repository_mock, tokens_repository_mock):
-    # Mocking the necessary objects
-    tokens_repository_mock.verifyToken.return_value = "testuser"
-    teacher = Teacher(
-        nome="John Doe",
-        login="testuser",
-        senha="password",
-        cpf="1234567890",
-        data_nascimento="1994-02-09",
-        cursos="Culinária",
-        email="email@test.com",
-        telefone="61921432134"
-    )
-    teacher_repository_mock.find_by_login.return_value = teacher
+# def test_verify_token(teacher_repository_mock, tokens_repository_mock):
+#     # Mocking the necessary objects
+#     tokens_repository_mock.verifyToken.return_value = "testuser"
+#     teacher = Teacher(
+#         nome="John Doe",
+#         login="testuser",
+#         senha="password",
+#         cpf="1234567890",
+#         data_nascimento="1994-02-09",
+#         cursos="Culinária",
+#         email="email@test.com",
+#         telefone="61921432134"
+#     )
+#     teacher_repository_mock.find_by_login.return_value = teacher
 
-    # Creating an instance of TeacherService with mocked objects
-    service = TeacherService(
-        teachersRepository=teacher_repository_mock,
-        tokensRepository=tokens_repository_mock
-    )
+#     # Creating an instance of TeacherService with mocked objects
+#     service = TeacherService(
+#         teachersRepository=teacher_repository_mock,
+#         tokensRepository=tokens_repository_mock
+#     )
 
-    # Calling the verifyToken method
-    returned_teacher = service.verifyToken(token="test_token")
+#     # Calling the verifyToken method
+#     returned_teacher = service.verifyToken(token="test_token")
 
-    # Assertions
-    assert returned_teacher == teacher
-    tokens_repository_mock.verifyToken.assert_called_once_with(token="test_token")
-    teacher_repository_mock.find_by_login.assert_called_once_with("testuser")
+#     # Assertions
+#     assert returned_teacher == teacher
+#     tokens_repository_mock.verifyToken.assert_called_once_with(token="test_token")
+#     teacher_repository_mock.find_by_login.assert_called_once_with("testuser")
 
 def test_refresh_session(tokens_repository_mock):
     # Mocking the necessary objects

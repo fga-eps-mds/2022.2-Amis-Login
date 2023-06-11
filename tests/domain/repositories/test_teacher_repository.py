@@ -38,7 +38,7 @@ def test_save_new_teacher():
 
     teacher = Teacher(
         cpf='70761531653',
-        cursos='Confeitaria',
+        habilidades='Confeitaria',
         data_nascimento='2000-01-01',
         email='john@example.com',
         login='john.doe',
@@ -62,7 +62,7 @@ def test_validateTeacher():
     # Arrange
     teacher = Teacher(
         cpf='70761531653',
-        cursos='Confeitaria',
+        habilidades='Confeitaria',
         data_nascimento='2000-01-01',
         email='john@example.com',
         login='john.doe',
@@ -88,7 +88,7 @@ def test_invalidateTeacher():
     # Arrange
     teacher = Teacher(
         cpf='07497550',
-        cursos='Confeitaria',
+        habilidades='Confeitaria',
         data_nascimento='2000-01-01',
         email='john@example.com',
         login='john.doe',
@@ -114,7 +114,7 @@ def test_invalidateTeacher_2():
     # Arrange
     teacher = Teacher(
         cpf='07497550',
-        cursos='Confeitaria',
+        habilidades='Confeitaria',
         data_nascimento='2000-01-01',
         email='john@example.com',
         login='john.doe',
@@ -143,7 +143,7 @@ def test_find_all(mock_repository):
     mock_repository_instance.find_all.return_value = [
         TeacherResponse(
             cpf='70761531653',
-            cursos='Confeitaria',
+            habilidades='Confeitaria',
             data_nascimento='2000-01-01',
             email='john@example.com',
             login='john.doe',

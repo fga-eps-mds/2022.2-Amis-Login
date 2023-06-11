@@ -8,7 +8,7 @@ class TeacherDB(Base):
     __table_args__ = {"extend_existing": True}
 
     cpf : str = Column(String(11), nullable = False)
-    cursos : str = Column(String(70), nullable = True)
+    habilidades : str = Column(String(70), nullable = True)
     data_nascimento : str = Column(String(10), nullable = False)
     email : str = Column(String(256), nullable = True)
     login : str = Column(String(70), primary_key = True, nullable = False)
@@ -20,7 +20,7 @@ class TeacherDB(Base):
 class Teacher(BaseModel):
     
     cpf : str
-    cursos : str
+    habilidades : str
     data_nascimento : str
     email : str
     login : str
