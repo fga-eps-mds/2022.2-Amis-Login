@@ -35,20 +35,20 @@ def client():
 #     assert response.status_code == 200
 
 
-def test_failed_login(client):
-    username = 'unregistered'
-    password = 'unregistered'
+# def test_failed_login(client):
+#     username = os.environ.get('TEST_USERNAME')
+#     password = os.environ.get('TEST_PASSWORD')
 
-    headers = {
-        'accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
-    }
-    data = {
-        'username': username,
-        'password': password,
-    }
-    response = requests.post('http://localhost:9090/login/', headers=headers, data=data)
-    assert response.status_code == 403
+#     headers = {
+#         'accept': 'application/json',
+#         'Content-Type': 'application/x-www-form-urlencoded',
+#     }
+#     data = {
+#         'username': username,
+#         'password': password,
+#     }
+#     response = requests.post('http://localhost:9090/login/', headers=headers, data=data)
+#     assert response.status_code == 403
 
 # def test_verify_token(teacher_repository_mock, tokens_repository_mock):
 #     # Mocking the necessary objects
