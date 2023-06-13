@@ -36,19 +36,18 @@ def client():
 
 
 def test_failed_login(client):
-    
+    username = 'unregistered'
+    password = 'unregistered'
+
     headers = {
         'accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
     }
-
     data = {
-        'username': 'unregistered',
-        'password': 'unregistered',
+        'username': username,
+        'password': password,
     }
-
     response = requests.post('http://localhost:9090/login/', headers=headers, data=data)
-
     assert response.status_code == 403
 
 # def test_verify_token(teacher_repository_mock, tokens_repository_mock):
