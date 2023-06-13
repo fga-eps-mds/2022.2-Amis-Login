@@ -62,7 +62,7 @@ class TeacherService:
             teacher = Teacher(
                 login=teacher_db.login,
                 cpf=teacher_db.cpf,
-                cursos=teacher_db.cursos,
+                habilidades=teacher_db.habilidades,
                 data_nascimento=teacher_db.data_nascimento,
                 email=teacher_db.email,
                 nome=teacher_db.nome,
