@@ -98,7 +98,7 @@ class TeacherService:
 
     def exists_by_login(self, login: str) -> bool:
         """Função para verificar se existe um objeto Teacher com o login dado"""
-        return self.__teachersRepository__.find_by_login(login=login) is not None
+        return self.__teachersRepository__.find_by_login(login) is not None
 
     def delete_refresh_token(self, refresh_token: str):
         self.__tokensRepository__.delete_refresh_token(refresh_token)
