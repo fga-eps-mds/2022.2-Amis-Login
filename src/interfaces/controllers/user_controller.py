@@ -9,6 +9,7 @@ from fastapi import APIRouter, Form, Header, HTTPException, status
 from interfaces.controllers import socialWorkersService
 from interfaces.controllers import studentService
 from interfaces.controllers import teacherService
+from interfaces.controllers import supervisorService
 
 routerLoginSocialWorker = APIRouter(
     prefix="/login",
@@ -149,3 +150,6 @@ def logout(refresh_token: str = Header(...)):
     teacherService.delete_refresh_token(refresh_token)
 
     return {"message": "Logout realizado com sucesso"}
+
+
+
