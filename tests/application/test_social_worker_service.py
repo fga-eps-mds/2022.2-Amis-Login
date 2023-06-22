@@ -49,7 +49,7 @@ def test_failed_login(client):
 
     response = requests.post('http://localhost:9090/login/', headers=headers, data=data)
 
-    assert response.status_code == 404
+    assert response.status_code == 403
 
 def test_verify_token(social_worker_repository_mock, tokens_repository_mock):
     # Mocking the necessary objects
