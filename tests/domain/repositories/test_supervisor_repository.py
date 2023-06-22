@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from domain.models.supervisor import Supervisor, SupervisorRequest, SupervisorResponse
 from infrastructure.repositories.supervisor_repository import SupervisorRepository
 
-
 def generate_session():
     return MagicMock(spec=Session)
 
